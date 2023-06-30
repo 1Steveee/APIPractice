@@ -1,4 +1,6 @@
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ResponseBodyExtractionOptions;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
@@ -75,5 +77,25 @@ public class Chapter2Test {
                 body("$", hasKey("country abbreviation"));
     }
 
+    @Test
+    public void testPrintResponseBody() {
+        String response = given().
+                when().
+                get(BASE_URL).
+                then().
+                statusCode(200).
+                extract().body().asString();
+
+        System.out.println(response);
+    }
+
+    @Test
+    public void testResponseHeaders() {
+            given().
+                    when().
+                    get(BASE_URL).
+                    then().
+                    statusCode(200).assertThat().header("Content-Type", equalTo("application/json"));
+    }
 
 }
