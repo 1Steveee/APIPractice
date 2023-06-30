@@ -98,4 +98,19 @@ public class Chapter2Test {
                     statusCode(200).assertThat().header("Content-Type", equalTo("application/json"));
     }
 
+    @Test
+    public void testPathParamsGetRequest() {
+        given()
+                .pathParams("zipCode", "33803")
+                .when()
+                .get("http://api.zippopotam.us/us/{zipCode}")
+                .then()
+                .statusCode(200)
+                .assertThat()
+                .body("'post code'", equalTo("33803"))
+                .and()
+                .body("places[0].'longitude'", equalTo("-81.9523"))
+                .log().body();
+    }
+
 }
